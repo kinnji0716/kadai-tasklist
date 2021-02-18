@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Message;
-import models.validator.MessageValidator;
+import models.validator.TaskValidator;
 import utils.DBUtil;
 /**
  * Servlet implementation class UpdateServlet
@@ -37,23 +36,23 @@ public class UpdateServlet extends HttpServlet {
             EntityManager em = DBUtil.createEntityManager();
 
 
-            Message m = em.find(Message.class, (Integer)(request.getSession().getAttribute("message_id")));
+            Tasks t = em.find(Tasks.class, (Integer)(request.getSession().getAttribute("tasks_id")));
 
             String title = request.getParameter("title");
-            m.setTitle(title);
+            t.setTitle(title);
 
             String content = request.getParameter("content");
-            m.setContent(content);
+            t.setContent(content);
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            m.setUpdated_at(currentTime);
+            t.setUpdated_at(currentTime);
 
-            List<String> errors = MessageValidator.validate(m);
+            List<String> errors = TaskValidator.validate(t);
             if(errors.size() > 0) {
                 em.close();
 
                 request.setAttribute("_token", request.getSession().getId());
-                request.setAttribute("message", m);
+                request.setAttribute("message", t);
                 request.setAttribute("errors", errors);
 
                 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/edit.jsp");
@@ -66,7 +65,7 @@ public class UpdateServlet extends HttpServlet {
                 request.getSession().setAttribute("flush", "更新が完了しました。");
                 em.close();
 
-                request.getSession().removeAttribute("message_id");
+                request.getSession().removeAttribute("tasks_id");
 
                 response.sendRedirect(request.getContextPath() + "/index");
             }

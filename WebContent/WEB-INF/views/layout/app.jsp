@@ -14,7 +14,7 @@
             <h1>メッセージボードアプリケーション</h1>
         </div>
         <div id="content">${param.content}</div>
-        <div id="footer">by Taro Kirameki.</div>
+        <div id="footer">by KOTARO NISHIKAWA.</div>
     </div>
 </body>
 </html>
