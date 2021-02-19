@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Task;
 import models.validator.TaskValidator;
 import utils.DBUtil;
 /**
@@ -36,7 +37,7 @@ public class UpdateServlet extends HttpServlet {
             EntityManager em = DBUtil.createEntityManager();
 
 
-            Tasks t = em.find(Tasks.class, (Integer)(request.getSession().getAttribute("tasks_id")));
+            Task t = em.find(Task.class, (Integer)(request.getSession().getAttribute("tasks_id")));
 
             String title = request.getParameter("title");
             t.setTitle(title);
@@ -52,10 +53,10 @@ public class UpdateServlet extends HttpServlet {
                 em.close();
 
                 request.setAttribute("_token", request.getSession().getId());
-                request.setAttribute("message", t);
+                request.setAttribute("task", t);
                 request.setAttribute("errors", errors);
 
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/edit.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp");
                 rd.forward(request, response);
 
             } else {
