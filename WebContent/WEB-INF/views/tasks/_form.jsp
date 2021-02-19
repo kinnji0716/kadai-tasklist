@@ -11,7 +11,7 @@
 </c:if>
 <label for="title">タイトル</label>
 <br />
-<input type="text" name="title" value="${message.title}" />
+<input type="text" name="title" value="${task.title}" />
 <br />
 <br />
 
